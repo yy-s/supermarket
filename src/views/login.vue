@@ -44,7 +44,7 @@
 												if (res.data.type === 1) {
 														this.$router.push({path: '/s/home'})
 												} else if (res.data.type === 2) {
-														this.$router.push({path: '/s/home'})
+														this.$router.push({path: '/v/home'})
 												}
 												localStorage.setItem('realName', res.data.realName)
 												localStorage.setItem('type', res.data.type)

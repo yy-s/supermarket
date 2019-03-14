@@ -3,7 +3,6 @@ import App from './App'
 import VueRouter from 'vue-router'
 import router from './router'
 import iView from 'iview'
-import Vuex from 'vuex'
 import 'iview/dist/styles/iview.css'
 /*引入index.js*/
 import api from './axios/index.js'

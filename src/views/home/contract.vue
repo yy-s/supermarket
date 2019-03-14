@@ -78,6 +78,7 @@
 										{'title': '合作方', 'key': 'business'},
 										{'title': '签订日期', 'key': 'QDDate'},
 										{'title': '录入日期', 'key': 'LRDate'},
+										{'title': '相关采购记录', 'key': 'purchaseID'},
 										{
 												'title': '查看',
 												'key': 'caozuo',
