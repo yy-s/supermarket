@@ -21,23 +21,20 @@
 								<FormItem label="订单编号">
 										<Input v-model="formItem.orderID" placeholder="请输入订单编号"></Input>
 								</FormItem>
-								
-								<FormItem label="采购日期">
-										<Col span="12">
-												<DatePicker type="date" :options="options" placeholder="Select date" style="width: 200px"></DatePicker>
-										</Col>
-								</FormItem>
-								<FormItem label="录入日期">
-										<Input v-model="formItem.LRDate" placeholder="请输入录入时间" disabled></Input>
-								</FormItem>
-								<FormItem label="出单人员">
-										<Input v-model="formItem.CDPerson" placeholder="请输入出单人员"></Input>
+								<FormItem label="金额">
+										<Input v-model="formItem.price" placeholder="请输入订单金额"></Input>
 								</FormItem>
 								<FormItem label="审核人员">
 										<Input v-model="formItem.SHPerson" placeholder="请输入审核人员"></Input>
 								</FormItem>
 								<FormItem label="录入人员">
 										<Input v-model="formItem.LRPerson" placeholder="请输入录入人员" disabled></Input>
+								</FormItem>
+								<FormItem label="相关采购单">
+										<Input v-model="formItem.purchaseID" placeholder="请输入采购记录"></Input>
+								</FormItem>
+								<FormItem label="录入日期">
+										<Input v-model="formItem.date" placeholder="请输入录入时间" disabled></Input>
 								</FormItem>
 								<FormItem>
 										<Button style="margin-left: 8px" to="/s/order">退出</Button>
@@ -70,6 +67,13 @@
 				},
 				methods: {
 						addOrder(formItem) {
+								console.log(formItem)
+								this.$api.addOrder(formItem).then(res => {
+										res = res.data
+										if (res.code === 0) {
+												this.$router.push({path: '/s/order'})
+										}
+								})
 						}
 				}
 		}

@@ -98,6 +98,26 @@
 																}, '详情')
 														])
 												}
+										},
+										{
+												'title': '操作',
+												'key': 'caozuo',
+												'width': '120',
+												render: (h, params) => {
+														return h('div', [
+																h('Button', {
+																		props: {
+																				type: 'primary',
+																				size: 'small'
+																		},
+																		style: {marginRight: '20px'},
+																		on: {
+																				click: () => {
+																				}
+																		}
+																}, '审核完成')
+														])
+												}
 										}
 								],
 								formItem: {

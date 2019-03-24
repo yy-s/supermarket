@@ -25,6 +25,23 @@
 						<Table border :columns="columns" :data="tableData"></Table>
 				</div>
 				<Page :current="page" :total="totalCount" simple @on-change="changPage"/>
+				<Modal
+						v-model="showEdit"
+						title="编辑订单信息"
+						@on-ok="submitEdit"
+						@on-cancel="cancel">
+						<Form :model="formItem" :label-width="80">
+								<FormItem label="订单名称">
+										<Input v-model="formItem.orderName" placeholder="请输入订单名称" disabled=""></Input>
+								</FormItem>
+								<FormItem label="订单编号">
+										<Input v-model="formItem.orderID" placeholder="请输入订单编号" disabled=""></Input>
+								</FormItem>
+								<FormItem label="相关采购单">
+										<Input v-model="formItem.purchaseID" placeholder="请输入采购记录"></Input>
+								</FormItem>
+						</Form>
+				</Modal>
 		</section>
 </template>
 
@@ -36,13 +53,14 @@
 										{'title': '序号', 'key': 'number', 'width': '80'},
 										{'title': '订单名称', 'key': 'orderName'},
 										{'title': '订单编号', 'key': 'orderID'},
-										{'title': '金额', 'key': 'price', 'width': 100},
-										{'title': '审核人', 'key': 'SHPerson'},
-										{'title': '录入员', 'key': 'LRPerson'},
+										{'title': '金额', 'key': 'price', 'width': 130},
+										{'title': '审核人', 'key': 'SHPerson', 'width': 130},
+										{'title': '录入员', 'key': 'LRPerson', 'width': 130},
 										{'title': '日期', 'key': 'date'},
 										{
-												'title': '订单详情',
+												'title': '采购记录',
 												'key': 'caozuo',
+												'width': 100,
 												render: (h, params) => {
 														return h('div', [
 																h('Button', {
@@ -53,17 +71,88 @@
 																		style: {marginRight: '20px'},
 																		on: {
 																				click: () => {
+																						this.getPurchase(params)
 																				}
 																		}
 																}, '查看')
 														])
 												}
+										},
+										{
+												'title': '操作',
+												'key': 'caozuo',
+												'width': 100,
+												render: (h, params) => {
+														return h('div', [
+																h('Button', {
+																		props: {
+																				type: 'primary',
+																				size: 'small'
+																		},
+																		style: {marginRight: '20px'},
+																		on: {
+																				click: () => {
+																						this.editOrder(params)
+																				}
+																		}
+																}, '编辑')
+														])
+												}
 										}
 								],
+								formItem: {
+										orderName: '',
+										orderID: '',
+										purchaseID: ''
+								},
 								tableData: [],
-								page: '',
-								totalCount: ''
+								page: 1,
+								totalCount: 10,
+								searchValue: '',
+								// changeOrder: false,
+								// returnOrder: false,
+								showEdit: false,
 						}
+				},
+				methods: {
+						getOrder() {
+								let params = {
+										'page': this.page,
+										'pageSize': 10,
+										'search': this.searchValue
+								}
+								this.$api.getOrder(params).then(res => {
+										res = res.data
+										this.totalCount = res.data.count
+										this.tableData = res.data.info
+										this.searchValue = ''
+								})
+						},
+						changPage() {
+								this.page = page
+								this.getOrder()
+						},
+						submitEdit() {
+						
+						},
+						getPurchase(params) {
+								if (!params.row.purchaseID) {
+										this.$Message.warning('该订单还没有录入采购单信息')
+								} else {
+										// this.showEdit = true
+								}
+						},
+						editOrder(params) {
+								this.showEdit = true
+								this.formItem.orderName = params.row.orderName
+								this.formItem.orderID = params.row.orderID
+						},
+						cancel() {
+						
+						},
+				},
+				mounted() {
+						this.getOrder()
 				}
 		}
 </script>

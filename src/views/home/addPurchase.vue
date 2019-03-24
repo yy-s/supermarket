@@ -17,10 +17,10 @@
 		</Breadcrumb>
 		<Card style="width: 470px">
 			<Form :model="formItem" :label-width="80">
-				<FormItem label="订单名称">
+				<FormItem label="采购单名称">
 					<Input v-model="formItem.orderName" placeholder="请输入订单名称"></Input>
 				</FormItem>
-				<FormItem label="订单编号">
+				<FormItem label="采购单编号">
 					<Input v-model="formItem.orderID" placeholder="请输入订单编号"></Input>
 				</FormItem>
 				

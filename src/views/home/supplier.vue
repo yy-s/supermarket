@@ -21,6 +21,32 @@
 						<Table border :columns="columns" :data="tableData"></Table>
 				</div>
 				<Page :current="page" :total="totalCount" simple @on-change="changPage"/>
+				<Modal
+						v-model="showEdit"
+						title="编辑供应商信息"
+						@on-ok="submitEdit"
+						@on-cancel="cancel">
+						<Form :model="formItem" :label-width="80">
+								<FormItem label="经销商名称">
+										<Input v-model="formItem.SName" placeholder="请输入经销商名称"></Input>
+								</FormItem>
+								<FormItem label="经销商地址">
+										<Input v-model="formItem.address" placeholder="请输入经销商地址"></Input>
+								</FormItem>
+								<FormItem label="联系方式">
+										<Input v-model="formItem.tel" placeholder="请输入联系方式"></Input>
+								</FormItem>
+								<FormItem label="合作商品">
+										<Input v-model="formItem.comm" placeholder="请输入合作商品"></Input>
+								</FormItem>
+								<FormItem label="合作状态">
+										<RadioGroup v-model="formItem.status" type="button">
+												<Radio label="正常"></Radio>
+												<Radio label="结束"></Radio>
+										</RadioGroup>
+								</FormItem>
+						</Form>
+				</Modal>
 		</section>
 </template>
 
@@ -33,7 +59,9 @@
 										{'title': '经销商名称', 'key': 'SName'},
 										{'title': '地址', 'key': 'address'},
 										{'title': '联系方式', 'key': 'tel'},
-										{'title': '供应商品', 'key': 'count', 'width': '150'},
+										{'title': '供应商品', 'key': 'comm', 'width': '150'},
+										{'title': '开始合作日期', 'key': 'startDate'},
+										{'title': '合作状态', 'key': 'status'},
 										{
 												'title': '操作',
 												'key': 'caozuo',
@@ -48,18 +76,67 @@
 																		style: {marginRight: '20px'},
 																		on: {
 																				click: () => {
+																						this.editSupplier(params)
 																				}
 																		}
 																}, '编辑')
 														])
 												}
 										}
-								]
+								],
+								formItem: {
+										SName: '',
+										address: '',
+										tel: '',
+										comm: '',
+										status: ''
+								},
+								tableData: [],
+								totalCount: 10,
+								page: 1,
+								searchValue: '',
+								showEdit: false
 						}
 				},
 				methods: {
 						getSupplier() {
+								let params = {
+										'page': this.page,
+										'pageSize': 10,
+										'search': this.searchValue
+								}
+								this.$api.getSupp(params).then(res => {
+										res = res.data
+										this.totalCount = res.data.count
+										this.tableData = res.data.info
+										this.searchValue = ''
+								})
+						},
+						changPage(page) {
+								this.page = page
+								this.getSupplier()
+						},
+						editSupplier(params) {
+								this.showEdit = true
+								this.formItem = params.row
+						},
+						submitEdit() {
+								let params = {
+										'whereStr': {
+												'_id': this.formItem['_id']
+										},
+										'updateStr': this.formItem
+								}
+								this.$api.editSupp(params).then(res => {
+										res = res.data
+										if (res.code === 0 && res.data) {
+												this.showEdit = false
+										}
+								})
 						}
+				},
+				mounted() {
+						this.getSupplier()
 				}
 		}
 </script>

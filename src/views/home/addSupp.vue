@@ -15,32 +15,26 @@
 				</Breadcrumb>
 				<Card style="width: 470px">
 						<Form :model="formItem" :label-width="80">
-								<FormItem label="订单名称">
-										<Input v-model="formItem.orderName" placeholder="请输入订单名称"></Input>
+								<FormItem label="经销商名称">
+										<Input v-model="formItem.SName" placeholder="请输入经销商名称"></Input>
 								</FormItem>
-								<FormItem label="订单编号">
-										<Input v-model="formItem.orderID" placeholder="请输入订单编号"></Input>
+								<FormItem label="经销商地址">
+										<Input v-model="formItem.address" placeholder="请输入经销商地址"></Input>
 								</FormItem>
-								<FormItem label="采购日期">
+								<FormItem label="联系方式">
+										<Input v-model="formItem.tel" placeholder="请输入联系方式"></Input>
+								</FormItem>
+								<FormItem label="合作商品">
+										<Input v-model="formItem.comm" placeholder="请输入合作商品"></Input>
+								</FormItem>
+								<FormItem label="开始合作日期">
 										<Col span="12">
-												<DatePicker type="date" :options="options" placeholder="Select date" style="width: 200px"></DatePicker>
+												<DatePicker type="date" v-model="formItem.startDate" :options="options" placeholder="Select date" style="width: 200px"></DatePicker>
 										</Col>
-								</FormItem>
-								<FormItem label="录入日期">
-										<Input v-model="formItem.LRDate" placeholder="请输入录入时间" disabled></Input>
-								</FormItem>
-								<FormItem label="出单人员">
-										<Input v-model="formItem.CDPerson" placeholder="请输入出单人员"></Input>
-								</FormItem>
-								<FormItem label="审核人员">
-										<Input v-model="formItem.SHPerson" placeholder="请输入审核人员"></Input>
-								</FormItem>
-								<FormItem label="录入人员">
-										<Input v-model="formItem.LRPerson" placeholder="请输入录入人员" disabled></Input>
 								</FormItem>
 								<FormItem>
 										<Button style="margin-left: 8px" to="/s/supplier">退出</Button>
-										<Button type="primary" @click="addSupp(formItem)">提交</Button>
+										<Button type="primary" @click="addSupplier(formItem)">提交</Button>
 								</FormItem>
 						</Form>
 				</Card>
@@ -52,13 +46,12 @@
 				data () {
 						return {
 								formItem: {
-										orderName: '',
-										orderID: '',
-										CGDate: this.option,
-										LRDate: new Date().toLocaleDateString(),
-										CDPerson: '',
-										SHPerson: '',
-										LRPerson: localStorage.getItem('admin')
+										SName: '',
+										address: '',
+										tel: '',
+										comm: '',
+										startDate: this.options,
+										status: '正常'
 								},
 								options: {
 										disabledDate (date) {
@@ -69,6 +62,12 @@
 				},
 				methods: {
 						addSupplier(formItem) {
+								this.$api.addSupp(formItem).then(res => {
+										res = res.data
+										if (res.code === 0) {
+												this.$router.push({path: '/s/supplier'})
+										}
+								})
 						}
 				}
 		}
