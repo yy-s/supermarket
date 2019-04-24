@@ -20,7 +20,6 @@
 				<div class="table">
 						<Table border :columns="columns" :data="tableData"></Table>
 				</div>
-				<!--<Page :total="totalCount" show-total :current></Page>-->
 				<Page :current="page" :total="totalCount" simple @on-change="changPage"/>
 				<Modal
 						v-model="showEdit"

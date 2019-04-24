@@ -36,6 +36,15 @@ const addOrder = (params) => {
 const getOrder = (params) => {
 		return ajax.post(`/s/api/v1/getOrder`, params)
 }
+const addPurchase = (params) => {
+	return ajax.post(`/s/api/v1/addPurchase`, params)
+}
+const getPurchase = (params) => {
+	return ajax.post(`/s/api/v1/getPurchase`, params)
+}
+const editPurchase = (params) => {
+	return ajax.post(`/s/api/v1/editPurchase`, params)
+}
 
 const apiList = {
 		login,
@@ -49,7 +58,10 @@ const apiList = {
 		editSupp,
 		delSupp,
 		addOrder,
-		getOrder
+		getOrder,
+    addPurchase,
+    getPurchase,
+    editPurchase
 }
 
 export default apiList
