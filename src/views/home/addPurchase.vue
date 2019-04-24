@@ -28,9 +28,7 @@
 								</FormItem>
 								
 								<FormItem label="采购日期">
-										<Col span="12">
-												<DatePicker type="date" :options="options" placeholder="Select date" style="width: 200px"></DatePicker>
-										</Col>
+										<Input v-model="formItem.CGDate" placeholder="请输入采购日期"></Input>
 								</FormItem>
 								<FormItem label="录入日期">
 										<Input v-model="formItem.LRDate" placeholder="请输入录入时间" disabled></Input>

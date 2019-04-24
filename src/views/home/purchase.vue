@@ -27,7 +27,7 @@
 				<Page :current="page" :total="totalCount" simple @on-change="changPage"/>
 				<Modal
 						v-model="showEdit"
-						title="编辑商品信息"
+						title="编辑采购单信息"
 						@on-ok="submitEdit"
 						@on-cancel="cancel">
 						<Form :model="formItem" :label-width="80">
@@ -37,11 +37,8 @@
 								<FormItem label="采购单编号">
 										<Input v-model="formItem.orderID" placeholder="请输入订单编号"></Input>
 								</FormItem>
-								
 								<FormItem label="采购日期">
-										<Col span="12">
-												<DatePicker type="date" :options="options" placeholder="Select date" style="width: 200px"></DatePicker>
-										</Col>
+										<Input v-model="formItem.CGDate" placeholder="请输入采购日期"></Input>
 								</FormItem>
 								<FormItem label="出单人员">
 										<Input v-model="formItem.CDPerson" placeholder="请输入出单人员"></Input>
@@ -138,7 +135,7 @@
             cancel() {
             
             },
-            editPurchase() {
+            editPurchase(params) {
                 this.showEdit = true
                 this.formItem = params.row
             }
