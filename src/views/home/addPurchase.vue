@@ -75,7 +75,6 @@
         },
         methods: {
             addPurchase(formItem) {
-                console.log(formItem)
                 this.$api.addPurchase(formItem).then(res => {
                     res = res.data
                     if (res.code === 0) {
