@@ -61,7 +61,8 @@
 										JPrice: '',
 										SPrice: '',
 										supplier: '',
-										count: ''
+										count: '',
+										By: localStorage.getItem('admin')
 								}
 						}
 				},

@@ -162,6 +162,7 @@
 										PurchaseID: '',
                     LRDate: new Date().toLocaleDateString(),
                     CXQ: '',
+                    By: localStorage.getItem('admin')
                 },
                 totalCount: '',
 								page: 1,

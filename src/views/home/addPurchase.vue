@@ -62,7 +62,8 @@
                     LRDate: new Date().toLocaleDateString(),
                     CDPerson: '',
                     SHPerson: '',
-                    LRPerson: localStorage.getItem('admin')
+                    LRPerson: localStorage.getItem('admin'),
+                    By: localStorage.getItem('admin')
                 },
                 options: {
                     disabledDate(date) {

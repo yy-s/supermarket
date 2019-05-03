@@ -56,7 +56,8 @@
 										SHPerson: '',
 										LRPerson: localStorage.getItem('admin'),
 										purchaseID: '',
-										date: new Date().toLocaleDateString()
+										date: new Date().toLocaleDateString(),
+                    By: localStorage.getItem('admin')
 								},
 								options: {
 										disabledDate (date) {
