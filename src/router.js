@@ -31,10 +31,15 @@ export default new Router({
 						component: entrance,
 						redirect: {name: 'home'},
 						children: [
-								{path: 'home', name: 'home', component: () => import('./views/home/index')}
-						]
+								{path: 'home', name: 'home', component: () => import('./views/home/index')},
+                {path: 'commodity', name: 'commodity', component: () => import('./views/home/VCommodity')},
+                {path: 'addCommodity', name: 'addCommodity', component: () => import('./views/home/addVCommodity')},
+                {path: 'contract', name: 'contract', component: () => import('./views/home/VContract')},
+                {path: 'order', name: 'order', component: () => import('./views/home/VOrder')},
+                {path: 'addOrder', name: 'addOrder', component: () => import('./views/home/addVOrder')}
+            ]
 				},
-				{
+        {
 						path: '/',
 						component: login,
 				},

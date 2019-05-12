@@ -70,7 +70,7 @@
 																<Icon type="md-cart"></Icon>
 																商品管理
 														</template>
-														<router-link to="commodity">
+														<router-link to="/v/commodity">
 																<MenuItem name="1-1">商品管理</MenuItem>
 														</router-link>
 												</Submenu>
@@ -79,10 +79,10 @@
 																<Icon type="logo-usd"></Icon>
 																交易管理
 														</template>
-														<router-link to="return">
+														<router-link to="/v/return">
 																<MenuItem name="2-2">退换货交易</MenuItem>
 														</router-link>
-														<router-link to="order">
+														<router-link to="/v/order">
 																<MenuItem name="2-3">订单管理</MenuItem>
 														</router-link>
 												</Submenu>
@@ -91,8 +91,8 @@
 																<Icon type="md-bookmarks"></Icon>
 																合同管理
 														</template>
-														<router-link to="contract">
-																<MenuItem name="4-1">合同管理</MenuItem>
+														<router-link to="/v/contract">
+																<MenuItem name="3-1">合同管理</MenuItem>
 														</router-link>
 												</Submenu>
 										</Menu>

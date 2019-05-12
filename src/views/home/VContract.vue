@@ -26,13 +26,13 @@
 																		</Col>
 																</FormItem>
 																<FormItem label="合作方">
-																		<Input v-model="formItem.HeZuoFang" placeholder="请输入录入时间"></Input>
+																		<Input v-model="formItem.HeZuoFang" placeholder="请输入合作方"></Input>
 																</FormItem>
 																<FormItem label="录入日期">
 																		<Input v-model="formItem.LRDate" placeholder="请输入录入时间" disabled></Input>
 																</FormItem>
-																<FormItem label="相关采购记录">
-																		<Input v-model="formItem.PurchaseID" placeholder="请输入录入时间"></Input>
+																<FormItem label="采购记录">
+																		<Input v-model="formItem.PurchaseID" placeholder="请输入采购记录"></Input>
 																</FormItem>
 																<FormItem label="合同详情">
 																		<Input v-model="formItem.CXQ" placeholder="请输入合同文件"></Input>
@@ -158,19 +158,19 @@
                 formItem: {
                     CID: '',
                     QDDate: '',
-										HeZuoFang: '',
-										PurchaseID: '',
+                    HeZuoFang: '',
+                    PurchaseID: '',
                     LRDate: new Date().toLocaleDateString(),
                     CXQ: '',
                     By: localStorage.getItem('admin')
                 },
                 totalCount: '',
-								page: 1,
+                page: 1,
                 tableData_doing: [],
                 tableData_ending: [],
                 searchValue: '',
-								options: '',
-								By: localStorage.getItem('admin')
+                options: '',
+                By: localStorage.getItem('admin')
             }
         },
         methods: {
@@ -183,7 +183,7 @@
                     res = res.data
                     if (res.code === 0) {
                         // this.$router.push({path: '/s/contract'})
-												this.formItem = {
+                        this.formItem = {
                             CID: '',
                             QDDate: '',
                             LRDate: new Date().toLocaleDateString(),
@@ -198,7 +198,7 @@
                     'page': this.page,
                     'pageSize': 10,
                     'search': this.searchValue,
-										'action': 'doing',
+                    'action': 'doing',
                     'by': this.By
                 }
                 this.$api.getContract(params).then(res => {
@@ -208,7 +208,7 @@
                     this.searchValue = ''
                 })
             },
-						getContractEnding() {
+            getContractEnding() {
                 let params = {
                     'page': this.page,
                     'pageSize': 10,
@@ -222,7 +222,7 @@
                     this.tableData_ending = res.data.info
                     this.searchValue = ''
                 })
-						},
+            },
             passContract(data) {
                 this.formItem = data.row
                 this.formItem.type = 1
@@ -239,7 +239,7 @@
                         this.getContractEnding()
                     }
                 })
-						},
+            },
             changPage() {
             
             }

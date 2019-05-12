@@ -36,6 +36,9 @@ const addOrder = (params) => {
 const getOrder = (params) => {
 		return ajax.post(`/s/api/v1/getOrder`, params)
 }
+const editOrder = (params) => {
+	return ajax.post(`/s/api/v1/editOrder`, params)
+}
 const addPurchase = (params) => {
 	return ajax.post(`/s/api/v1/addPurchase`, params)
 }
@@ -68,6 +71,7 @@ const apiList = {
 		delSupp,
 		addOrder,
 		getOrder,
+    editOrder,
     addPurchase,
     getPurchase,
     editPurchase,

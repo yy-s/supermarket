@@ -97,7 +97,8 @@
                     CGDate: '',
                     CDPerson: '',
                     SHPerson: ''
-                }
+                },
+                By: localStorage.getItem('admin'),
             }
         },
         methods: {
@@ -109,7 +110,8 @@
                 let params = {
                     'page': this.page,
                     'pageSize': 10,
-                    'search': this.searchValue
+                    'search': this.searchValue,
+										'by': this.By
                 }
                 this.$api.getPurchase(params).then(res => {
                     res = res.data

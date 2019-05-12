@@ -42,6 +42,46 @@
 								</FormItem>
 						</Form>
 				</Modal>
+				<Modal
+						v-model="show"
+						title="查看采购单信息"
+						@on-ok=""
+						@on-cancel="cancel">
+						<Form :model="formItem" :label-width="80">
+								<FormItem label="采购单名称">
+										<Input v-model="formItem1.orderName" placeholder="请输入订单名称" disabled=""></Input>
+								</FormItem>
+								<FormItem label="采购单编号">
+										<Input v-model="formItem1.orderID" placeholder="请输入订单编号" disabled=""></Input>
+								</FormItem>
+								<FormItem label="采购日期">
+										<Input v-model="formItem1.CGDate" placeholder="请输入采购日期" disabled=""></Input>
+								</FormItem>
+								<FormItem label="出单人员">
+										<Input v-model="formItem1.CDPerson" placeholder="请输入出单人员" disabled=""></Input>
+								</FormItem>
+								<FormItem label="审核人员">
+										<Input v-model="formItem1.SHPerson" placeholder="请输入审核人员" disabled=""></Input>
+								</FormItem>
+						</Form>
+				</Modal>
+				<Modal
+						v-model="orderStatus"
+						title="订单状态"
+						@on-ok="jiesuan(data)"
+						@on-cancel="cancel">
+						<p v-if="isStatus"> 该订单尚未结算，请问确认结算该订单吗？ </p>
+						<p v-if="!isStatus"> 该订单已结算 </p>
+				</Modal>
+				<Modal
+						v-model="orderReturn"
+						title="订单退换操作"
+						@on-ok=""
+						@on-cancel="cancel">
+						<p style="font-size: 18px">请对订单进行操作</p>
+						<Button @click="change(data)" type="warning" style="margin:25px 20px 10px 150px" size='default'>换货</Button>
+						<Button @click="return_order(data)" type="error" style="margin:25px 20px 10px 20px" size='default'>退货</Button>
+				</Modal>
 		</section>
 </template>
 
@@ -53,7 +93,8 @@
 										{'title': '序号', 'key': 'number', 'width': '80'},
 										{'title': '订单名称', 'key': 'orderName'},
 										{'title': '订单编号', 'key': 'orderID'},
-										{'title': '金额', 'key': 'price', 'width': 130},
+										{'title': '金额', 'key': 'price', 'width': 80},
+                    {'title': '经销商', 'key': 'supplier', 'width': 130},
 										{'title': '审核人', 'key': 'SHPerson', 'width': 130},
 										{'title': '录入员', 'key': 'LRPerson', 'width': 130},
 										{'title': '日期', 'key': 'date'},
@@ -68,7 +109,6 @@
 																				type: 'primary',
 																				size: 'small'
 																		},
-																		style: {marginRight: '20px'},
 																		on: {
 																				click: () => {
 																						this.getPurchase(params)
@@ -78,26 +118,58 @@
 														])
 												}
 										},
-										{
-												'title': '操作',
-												'key': 'caozuo',
-												'width': 100,
-												render: (h, params) => {
-														return h('div', [
-																h('Button', {
-																		props: {
-																				type: 'primary',
-																				size: 'small'
-																		},
-																		style: {marginRight: '20px'},
-																		on: {
-																				click: () => {
-																						this.editOrder(params)
-																				}
-																		}
-																}, '编辑')
-														])
-												}
+                    {
+                        'title': '操作',
+                        'key': 'caozuo',
+                        'width': 150,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {marginRight: '20px'},
+                                    on: {
+                                        click: () => {
+                                            this.editOrder(params)
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.returnOrder(params)
+                                        }
+                                    }
+                                }, '退换')
+                            ])
+                        }
+                    },
+                    {
+                        'title': '状态',
+                        'key': 'caozuo',
+                        'width': 100,
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {marginRight: '20px'},
+                                    on: {
+                                        click: () => {
+                                            this.fetchOrderStatus(params)
+                                        }
+                                    }
+                                }, '查看')
+                            ])
+                        }
 										}
 								],
 								formItem: {
@@ -109,9 +181,20 @@
 								page: 1,
 								totalCount: 10,
 								searchValue: '',
-								// changeOrder: false,
-								// returnOrder: false,
+                By: localStorage.getItem('admin'),
 								showEdit: false,
+                formItem1: {
+                    orderName: '',
+                    orderID: '',
+                    CGDate: '',
+                    CDPerson: '',
+                    SHPerson: ''
+                },
+								show: false,
+								isStatus: '',
+                orderStatus: false,
+								data: {},
+                orderReturn: false
 						}
 				},
 				methods: {
@@ -119,7 +202,8 @@
 								let params = {
 										'page': this.page,
 										'pageSize': 10,
-										'search': this.searchValue
+										'search': this.searchValue,
+										'by': this.By
 								}
 								this.$api.getOrder(params).then(res => {
 										res = res.data
@@ -133,23 +217,104 @@
 								this.getOrder()
 						},
 						submitEdit() {
-						
+                let params = {
+                    'whereStr': {
+                        '_id': this.formItem['_id']
+                    },
+                    'updateStr': this.formItem
+                }
+                this.$api.editOrder(params).then(res => {
+                    res = res.data
+                    if (res.code === 0 && res.data) {
+                        this.showEdit = false
+                    }
+                })
 						},
+            fetchOrderStatus(params) {
+                this.orderStatus = true
+						    this.isStatus = params.row.action === 0
+								this.data = params.row
+            },
 						getPurchase(params) {
-								if (!params.row.purchaseID) {
+                if (!params.row.orderID) {
 										this.$Message.warning('该订单还没有录入采购单信息')
 								} else {
-										// this.showEdit = true
-								}
+                    let data = {
+                        'page': this.page,
+                        'pageSize': 10,
+                        'searchid': params.row.orderID,
+                        'by': this.By
+                    }
+                    this.$api.getPurchase(data).then(res => {
+                        res = res.data
+                        this.totalCount = res.data.count
+                        this.formItem1 = res.data.info[0]
+                    })
+                    this.show = true
+                }
 						},
 						editOrder(params) {
 								this.showEdit = true
-								this.formItem.orderName = params.row.orderName
+                this.formItem.orderName = params.row.orderName
 								this.formItem.orderID = params.row.orderID
+								this.formItem.purchaseID = params.row.purchaseID
+						},
+            jiesuan(data) {
+                if (this.isStatus) {
+                    data.action = 1
+                    let params = {
+                        'whereStr': {
+                            '_id': data['_id']
+                        },
+                        'updateStr': data
+                    }
+                    this.$api.editOrder(params).then(res => {
+                        res = res.data
+                        if (res.code === 0 && res.data) {
+                            this.showEdit = false
+                        }
+                    })
+								} else {
+						        this.orderStatus = false
+								}
 						},
 						cancel() {
 						
 						},
+            returnOrder(params) {
+						    this.data = params.row
+						    this.orderReturn = true
+						},
+						change(data) {
+                data.status = 3
+                let params = {
+                    'whereStr': {
+                        '_id': data['_id']
+                    },
+                    'updateStr': data
+                }
+                this.$api.editOrder(params).then(res => {
+                    res = res.data
+                    if (res.code === 0 && res.data) {
+                        this.orderReturn = false
+                    }
+                })
+						},
+						return_order(data) {
+                data.status = 5
+                let params = {
+                    'whereStr': {
+                        '_id': data['_id']
+                    },
+                    'updateStr': data
+                }
+                this.$api.editOrder(params).then(res => {
+                    res = res.data
+                    if (res.code === 0 && res.data) {
+                        this.orderReturn = false
+                    }
+                })
+						}
 				},
 				mounted() {
 						this.getOrder()
