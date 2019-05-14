@@ -150,7 +150,7 @@
                     'page': this.page,
                     'pageSize': 10,
                     'search': this.searchValue,
-                    'by': this.By
+                    'supplier': this.By
                 }
                 this.$api.getOrder(params).then(res => {
                     res = res.data

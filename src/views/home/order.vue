@@ -273,9 +273,10 @@
 						},
 						editOrder(params) {
 								this.showEdit = true
-                this.formItem.orderName = params.row.orderName
-								this.formItem.orderID = params.row.orderID
-								this.formItem.purchaseID = params.row.purchaseID
+								this.formItem = params.row
+                // this.formItem.orderName = params.row.orderName
+								// this.formItem.orderID = params.row.orderID
+								// this.formItem.purchaseID = params.row.purchaseID
 						},
             jiesuan(data) {
                 if (this.isStatus) {
