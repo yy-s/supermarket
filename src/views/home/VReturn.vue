@@ -49,14 +49,14 @@
 						title="订单状态"
 						@on-ok="quxiao(data)"
 						@on-cancel="cancel">
-						<p> 确认撤销退换货操作吗？</p>
+						<p> 确认打回退换货申请吗？</p>
 				</Modal>
 				<Modal
 						v-model="isPassReturn"
 						title="订单状态"
 						@on-ok=""
 						@on-cancel="cancel">
-						<p> 订单已审核通过，无法撤销</p>
+						<p> 申请已审核通过，无法打回</p>
 				</Modal>
 		</section>
 </template>
@@ -79,7 +79,7 @@
                             return h('div', [
                                 h('Button', {
                                     props: {
-                                        type: 'primary',
+                                        type: 'error',
                                         size: 'small'
                                     },
                                     style: {marginRight: '20px'},
@@ -88,7 +88,19 @@
                                             this.cancelReturn(params)
                                         }
                                     }
-                                }, '撤销')
+                                }, '打回'),
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {marginRight: '20px'},
+                                    on: {
+                                        click: () => {
+                                            this.passReturn(params)
+                                        }
+                                    }
+                                }, '同意')
                             ])
                         }
                     }
@@ -98,9 +110,9 @@
                 page: 1,
                 totalCount: '',
                 searchText: '',
-								By: localStorage.getItem('admin'),
+                By: localStorage.getItem('admin'),
                 changeReturn: false,
-								data: {},
+                data: {},
                 isPassReturn: false
             }
         },
@@ -113,8 +125,8 @@
                     'page': this.page,
                     'pageSize': 10,
                     'search': this.searchValue,
-										'status': 3,
-                    'by': this.By
+                    'status': 3,
+                    'supplier': this.By
                 }
                 this.$api.getOrder(params).then(res => {
                     res = res.data
@@ -129,7 +141,7 @@
                     'pageSize': 10,
                     'search': this.searchValue,
                     'status': 5,
-                    'by': this.By
+                    'supplier': this.By
                 }
                 this.$api.getOrder(params).then(res => {
                     res = res.data
@@ -137,16 +149,16 @@
                     this.tableData1 = res.data.info
                     this.searchValue = ''
                 })
-						},
+            },
             cancelReturn(data) {
                 this.data = data.row
-                if (this.data.isPass === '审核通过') {
-                    this.isPassReturn = true
-                } else {
+    						if (this.data.isPass === '审核通过') {
+    						    this.isPassReturn = true
+								} else {
                     this.changeReturn = true
                 }
             },
-						quxiao(data) {
+            quxiao(data) {
                 data.status = 1
                 let params = {
                     'whereStr': {
@@ -162,9 +174,21 @@
                 })
                 this.getOrder_change()
                 this.getOrder_return()
-						},
-						cancel() {
-      
+            },
+            passReturn(data) {
+                data = data.row
+                data.isPass = '审核通过'
+                let params = {
+                    'whereStr': {
+                        '_id': data['_id']
+                    },
+                    'updateStr': data
+                }
+                this.$api.editOrder(params).then(res => {
+                    res = res.data
+                })
+                this.getOrder_change()
+                this.getOrder_return()
 						}
         },
         mounted() {

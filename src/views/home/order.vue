@@ -63,6 +63,9 @@
 								<FormItem label="审核人员">
 										<Input v-model="formItem1.SHPerson" placeholder="请输入审核人员" disabled=""></Input>
 								</FormItem>
+								<FormItem label="金额">
+										<Input v-model="formItem1.price" placeholder="请输入订单金额" disabled=""></Input>
+								</FormItem>
 						</Form>
 				</Modal>
 				<Modal
@@ -79,8 +82,20 @@
 						@on-ok=""
 						@on-cancel="cancel">
 						<p style="font-size: 18px">请对订单进行操作</p>
-						<Button @click="change(data)" type="warning" style="margin:25px 20px 10px 150px" size='default'>换货</Button>
-						<Button @click="return_order(data)" type="error" style="margin:25px 20px 10px 20px" size='default'>退货</Button>
+						<Form>
+								<FormItem label="原因">
+										<Input v-model="formItem.msg" placeholder="请输入原因"></Input>
+								</FormItem>
+								<Button @click="change(data)" type="warning" style="margin:25px 20px 10px 150px" size='default'>换货</Button>
+								<Button @click="return_order(data)" type="error" style="margin:25px 20px 10px 20px" size='default'>退货</Button>
+						</Form>
+				</Modal>
+				<Modal
+						v-model="orderReturn2"
+						title="订单退换操作"
+						@on-ok=""
+						@on-cancel="cancel">
+						<p style="font-size: 18px">该订单在处理状态，不可重复操作</p>
 				</Modal>
 		</section>
 </template>
@@ -175,7 +190,8 @@
 								formItem: {
 										orderName: '',
 										orderID: '',
-										purchaseID: ''
+										purchaseID: '',
+										msg: ''
 								},
 								tableData: [],
 								page: 1,
@@ -188,13 +204,15 @@
                     orderID: '',
                     CGDate: '',
                     CDPerson: '',
-                    SHPerson: ''
+                    SHPerson: '',
+										price: 0
                 },
 								show: false,
 								isStatus: '',
                 orderStatus: false,
 								data: {},
-                orderReturn: false
+                orderReturn: false,
+                orderReturn2: false
 						}
 				},
 				methods: {
@@ -283,10 +301,17 @@
 						},
             returnOrder(params) {
 						    this.data = params.row
-						    this.orderReturn = true
+                console.log(this.data)
+                if (this.data.status === 1) {
+                    this.orderReturn = true
+								} else {
+                    this.orderReturn2 = true
+								}
 						},
 						change(data) {
                 data.status = 3
+								data.msg = this.formItem.msg
+								data.isPass = '审核中'
                 let params = {
                     'whereStr': {
                         '_id': data['_id']
@@ -302,6 +327,8 @@
 						},
 						return_order(data) {
                 data.status = 5
+                data.msg = this.formItem.msg
+                data.isPass = '审核中'
                 let params = {
                     'whereStr': {
                         '_id': data['_id']

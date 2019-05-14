@@ -50,6 +50,7 @@
                     {'title': '录入日期', 'key': 'LRDate'},
                     {'title': '出单人', 'key': 'CDPerson'},
                     {'title': '审核人', 'key': 'SHPerson'},
+                    {'title': '金额', 'key': 'price'},
                     {'title': '录入员', 'key': 'LRPerson'},
                     {
                         'title': '操作',
@@ -84,7 +85,8 @@
 										comms: [],
                     CGDate: '',
                     CDPerson: '',
-                    SHPerson: ''
+                    SHPerson: '',
+										price: ''
                 },
                 By: localStorage.getItem('admin')
             }
@@ -114,7 +116,6 @@
             editPurchase(params) {
                 this.showEdit = true
                 this.formItem = params.row
-                console.log(this.formItem.comms)
             }
         },
         mounted() {

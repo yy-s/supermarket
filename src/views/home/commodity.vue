@@ -46,9 +46,9 @@
 								<FormItem label="售价">
 										<Input v-model="formItem.SPrice" placeholder="请输入售价"></Input>
 								</FormItem>
-								<FormItem label="经销商">
-										<Input v-model="formItem.supplier" placeholder="请输入经销商"></Input>
-								</FormItem>
+								<!--<FormItem label="经销商">-->
+										<!--<Input v-model="formItem.supplier" placeholder="请输入经销商"></Input>-->
+								<!--</FormItem>-->
 								<FormItem label="数量">
 										<Input v-model="formItem.count" placeholder="请输入商品库存量"></Input>
 								</FormItem>

@@ -36,6 +36,7 @@ export default new Router({
                 {path: 'addCommodity', name: 'addCommodity', component: () => import('./views/home/addVCommodity')},
                 {path: 'contract', name: 'contract', component: () => import('./views/home/VContract')},
                 {path: 'order', name: 'order', component: () => import('./views/home/VOrder')},
+                {path: 'return', name: 'order', component: () => import('./views/home/VReturn')},
                 {path: 'addOrder', name: 'addOrder', component: () => import('./views/home/addVOrder')}
             ]
 				},
