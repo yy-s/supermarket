@@ -27,26 +27,13 @@
 				<Page :current="page" :total="totalCount" simple @on-change="changPage"/>
 				<Modal
 						v-model="showEdit"
-						title="编辑采购单信息"
-						@on-ok="submitEdit"
+						title="查看商品信息"
+						@on-ok=""
 						@on-cancel="cancel">
-						<Form :model="formItem" :label-width="80">
-								<FormItem label="采购单名称">
-										<Input v-model="formItem.orderName" placeholder="请输入订单名称"></Input>
-								</FormItem>
-								<FormItem label="采购单编号">
-										<Input v-model="formItem.orderID" placeholder="请输入订单编号"></Input>
-								</FormItem>
-								<FormItem label="采购日期">
-										<Input v-model="formItem.CGDate" placeholder="请输入采购日期"></Input>
-								</FormItem>
-								<FormItem label="出单人员">
-										<Input v-model="formItem.CDPerson" placeholder="请输入出单人员"></Input>
-								</FormItem>
-								<FormItem label="审核人员">
-										<Input v-model="formItem.SHPerson" placeholder="请输入审核人员"></Input>
-								</FormItem>
-						</Form>
+						<div>
+								<!--<p v-for="formItem.comms" :value="aaa">{{aaa}}</p>-->
+						</div>
+						<!--<span v-for="formItem.comms" :value="aaa">{{aaa}}</span>-->
 				</Modal>
 		</div>
 </template>
@@ -57,7 +44,7 @@
             return {
                 columns: [
                     {'title': '序号', 'key': 'number', 'width': 80},
-                    {'title': '订单名称', 'key': 'orderName'},
+                    {'title': '采购单名称', 'key': 'orderName'},
                     {'title': '对应订单', 'key': 'orderID'},
                     {'title': '采购日期', 'key': 'CGDate'},
                     {'title': '录入日期', 'key': 'LRDate'},
@@ -80,7 +67,7 @@
                                             this.editPurchase(params)
                                         }
                                     }
-                                }, '查看订单')
+                                }, '查看')
                             ])
                         }
                     }
@@ -94,11 +81,12 @@
                 formItem: {
                     orderName: '',
                     orderID: '',
+										comms: [],
                     CGDate: '',
                     CDPerson: '',
                     SHPerson: ''
                 },
-                By: localStorage.getItem('admin'),
+                By: localStorage.getItem('admin')
             }
         },
         methods: {
@@ -120,26 +108,13 @@
                     this.searchValue = ''
                 })
             },
-            submitEdit() {
-                let params = {
-                    'whereStr': {
-                        '_id': this.formItem['_id']
-                    },
-                    'updateStr': this.formItem
-                }
-                this.$api.editPurchase(params).then(res => {
-                    res = res.data
-                    if (res.code === 0 && res.data) {
-                        this.showEdit = false
-                    }
-                })
-            },
             cancel() {
             
             },
             editPurchase(params) {
                 this.showEdit = true
                 this.formItem = params.row
+                console.log(this.formItem.comms)
             }
         },
         mounted() {

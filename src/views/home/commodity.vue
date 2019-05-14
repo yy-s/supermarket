@@ -75,7 +75,7 @@
 										{'title': '进价', 'key': 'JPrice'},
 										{'title': '售价', 'key': 'SPrice'},
 										{'title': '库存', 'key': 'count', 'width': 100},
-										{'title': '经销商', 'key': 'supplier'},
+										// {'title': '经销商', 'key': 'supplier'},
 										{
 												'title': '操作',
 												'key': 'caozuo',

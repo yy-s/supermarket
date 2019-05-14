@@ -85,26 +85,26 @@
                     {'title': '签订日期', 'key': 'QDDate'},
                     {'title': '录入日期', 'key': 'LRDate'},
                     {'title': '相关采购记录', 'key': 'PurchaseID'},
-                    {
-                        'title': '查看',
-                        'key': 'caozuo',
-                        'width': '120',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {marginRight: '20px'},
-                                    on: {
-                                        click: () => {
-                                        }
-                                    }
-                                }, '详情')
-                            ])
-                        }
-                    },
+                    // {
+                    //     'title': '查看',
+                    //     'key': 'caozuo',
+                    //     'width': '120',
+                    //     render: (h, params) => {
+                    //         return h('div', [
+                    //             h('Button', {
+                    //                 props: {
+                    //                     type: 'primary',
+                    //                     size: 'small'
+                    //                 },
+                    //                 style: {marginRight: '20px'},
+                    //                 on: {
+                    //                     click: () => {
+                    //                     }
+                    //                 }
+                    //             }, '详情')
+                    //         ])
+                    //     }
+                    // },
                     {
                         'title': '操作',
                         'key': 'caozuo',
@@ -134,26 +134,26 @@
                     {'title': '签订日期', 'key': 'QDDate'},
                     {'title': '录入日期', 'key': 'LRDate'},
                     {'title': '相关采购记录', 'key': 'PurchaseID'},
-                    {
-                        'title': '查看',
-                        'key': 'caozuo',
-                        'width': '120',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                        size: 'small'
-                                    },
-                                    style: {marginRight: '20px'},
-                                    on: {
-                                        click: () => {
-                                        }
-                                    }
-                                }, '详情')
-                            ])
-                        }
-                    }
+                    // {
+                    //     'title': '查看',
+                    //     'key': 'caozuo',
+                    //     'width': '120',
+                    //     render: (h, params) => {
+                    //         return h('div', [
+                    //             h('Button', {
+                    //                 props: {
+                    //                     type: 'primary',
+                    //                     size: 'small'
+                    //                 },
+                    //                 style: {marginRight: '20px'},
+                    //                 on: {
+                    //                     click: () => {
+                    //                     }
+                    //                 }
+                    //             }, '详情')
+                    //         ])
+                    //     }
+                    // }
                 ],
                 formItem: {
                     CID: '',
