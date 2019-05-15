@@ -31,7 +31,9 @@
 						@on-ok=""
 						@on-cancel="cancel">
 						<div>
-								<!--<p v-for="formItem.comms" :value="aaa">{{aaa}}</p>-->
+								<p v-for="(item, key) in formItem.comms">
+										商品名称: {{item.CName}}, 采购数量: {{item.count}}
+								</p>
 						</div>
 						<!--<span v-for="formItem.comms" :value="aaa">{{aaa}}</span>-->
 				</Modal>
